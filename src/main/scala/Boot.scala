@@ -13,14 +13,12 @@ object Boot {
 
   def loadTree(lines: Iterator[String]): Array[Array[Node]] = {
     val tree = lines.map(i => i.split(" ").map(j => Node(j.toInt, j.toInt))).toArray
-    tree.zipWithIndex.take(tree.length-1).foreach(i => updateWeight(tree, i._2))
+    tree.zipWithIndex.take(tree.length-1).foreach(i => updateWeight(i._1, tree(i._2 + 1)))
     tree
   }
 
-  def updateWeight(lines:Array[Array[Node]], index: Int): Unit = {
-    val next = lines(index + 1)
-    lines(index).zipWithIndex.foreach(i =>
-      updateChildren(i._1.sum, next(i._2), next(i._2 + 1)))
+  def updateWeight(current: Array[Node], next: Array[Node]): Unit = {
+    current.zipWithIndex.foreach(i => updateChildren(i._1.sum, next(i._2), next(i._2 + 1)))
   }
 
   def updateChildren(value: Int, child1: Node, child2: Node): Unit = {

@@ -18,11 +18,9 @@ object Boot {
   }
 
   def updateWeight(current: Array[Node], next: Array[Node]): Unit = {
-    current.zipWithIndex.foreach(i => updateChildren(i._1.sum, next(i._2), next(i._2 + 1)))
-  }
-
-  def updateChildren(value: Int, child1: Node, child2: Node): Unit = {
-    child1.sum = Math.max(child1.sum, child1.value + value)
-    child2.sum = Math.max(child2.sum, child2.value + value)
+    current.zipWithIndex.foreach(i => {
+      next(i._2).sum = Math.max(next(i._2).sum, next(i._2).value + i._1.sum)
+      next(i._2 + 1).sum = Math.max(next(i._2 + 1).sum, next(i._2 + 1).value + i._1.sum)
+    })
   }
 }
